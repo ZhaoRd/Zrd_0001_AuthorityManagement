@@ -1,0 +1,631 @@
+﻿@{
+    this.Layout = null;
+    ViewBag.Title = "List";
+}
+
+<h3>用户管理</h3>
+
+<div class="panel panel-default" ng-controller="SearchController as panel">
+ 
+    <div ng-class="{'panel-heading-collapsed':panelSearch}" class="panel-heading">
+        <em class="fa fa-filter"></em>搜索条件|
+        <small>设置搜索用户条件</small>
+
+        <div class="pull-right" tool-collapse="tool-collapse">
+            <a class="ng-scope" ng-click="panelSearch = !panelSearch" 
+               panel-collapse="" >
+                <em class="fa fa-plus ng-hide" ng-show="panelSearch" style=""></em>
+                <em class="fa fa-minus" ng-show="!panelSearch" style=""></em>
+            </a>
+            
+        </div>
+        
+    </div>
+    
+    <div collapse="panelSearch" class="panel-wrapper">
+        <div class="panel-body">
+            <form name="formSearch" ng-submit="panel.submitForm()"
+                  novalidate="" class="form-horizontal">
+                
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">用户名</label>
+                    <div class="col-lg-6">
+                        <input type="text" name="username" required="" ng-model="filter.username" class="form-control" />
+                       
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"></label>
+                    <div class="col-lg-6">
+                        <button type="submit" class="btn btn-info">搜索</button>
+                        <button type="reset" class="btn btn-danger">重置</button>
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div class="panel panel-default">
+    
+    <div class="panel-heading" ng-controller="OperationController as operation">
+        <em class="fa fa-table"></em>用户列表
+        
+        <div class="pull-right">
+            <button class="btn btn-labeled btn-info" type="button"
+                    ng-click="operation.add()">
+                <span class="btn-label">
+                    <i class="fa fa-plus"></i>
+                </span>
+                新增用户
+            </button>
+        </div>
+
+    </div>
+    <div class="panel-body">
+        
+        <div class="row" ng-controller="DataTableController as table1">
+            <div class="col-lg-12">
+                <table datatable="ng" class="row-border hover" 
+                       dt-options="table1.dtOptions"
+                       dt-column-defs="table1.dtColumnDefs">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>姓名</th>
+                            <th>邮箱</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="person in table1.persons.list">
+                            <td>{{ person.Id }}</td>
+                            <td>{{ person.UserName }}</td>
+                            <td>{{ person.Email }}</td>
+                            <td>
+                                <button type="button" ng-click="table1.edit(person.Id)" class="btn btn-sm btn-warning">
+                                    <em class="fa fa-edit"></em>编辑
+                                </button>
+                                <button type="button" ng-click="table1.delete(person.Id)" class="btn btn-sm btn-danger">
+                                    <em class="fa fa-trash-o"></em>删除
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row" ng-controller="UserPagingController as pag">
+            <div class="col-lg-3" style="margin-top: 21px">
+                <span>每页显示</span>
+                <div dropdown="dropdown" class="btn-group">
+                    <button dropdown-toggle="" class="btn btn-default">{{pag.paging.pageSize}} <b class="caret"></b>
+                    </button>
+                    <ul role="menu" class="dropdown-menu animated fadeIn">
+                        
+                        <li ng-repeat="sizeitem in pag.pageSizes">
+                            <a ng-click="pag.pageSizeChanged(sizeitem)">{{sizeitem}}</a>
+                        </li>
+                    </ul>
+                </div>
+                条数据
+            </div>
+            <div class="col-lg-9">
+                <pagination total-items="pag.paging.total"
+                            ng-model="pag.paging.currentPage" 
+                            max-size="pag.paging.pageSize"
+                            items-per-page="pag.paging.pageSize"
+                            boundary-links="true" rotate="false"
+                            num-pages="pag.numPages"
+                            ng-change="pag.pageChanged()"
+                            previous-text="上一页"
+                            next-text="下一页"
+                            first-text="首页"
+                            last-text="尾页"
+                            class="pagination-sm"></pagination>
+                <pre> 显示第 {{(pag.paging.currentPage-1)*pag.paging.pageSize+1}} 至 {{pag.paging.currentPage*pag.paging.pageSize < pag.paging.total ? pag.paging.currentPage*pag.paging.pageSize:pag.paging.total}} 项结果，共 {{pag.paging.total}} 项；当前第 {{pag.paging.currentPage}} 页，共 {{pag.numPages}} 页   </pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<toaster-container toaster-options="{'position-class': 'toast-bottom-right', 'close-button':true}"></toaster-container>      
+
+
+<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">编辑用户</h3>
+        </div>
+        <div class="modal-body">
+            <form name="formValidate" ng-submit="submitForm()"
+                    novalidate="" class="form-validate form-horizontal">
+                
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">用户名<small class="text-muted">*</small></label>
+                    <div class="col-lg-6">
+                        <input type="text" name="username" required="" ng-model="user.UserName" class="form-control" />
+                        
+                    </div>
+                    <div class="col-lg-3 ">
+                        <span ng-show="validateInput('username', 'required')" class="text-danger">
+                            必须填入用户名
+                        </span>
+                    </div>
+                </div>
+                
+            </form>
+    
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="submitForm()">保存</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+</script>
+
+
+<script type="text/javascript">
+    
+    // #region 检索面板的处理
+    
+    (function() {
+        'use strict';
+
+        var app = angular.module('angle');
+
+        app.register.controller('SearchController', ['$scope', 'UserManagerService', function ($scope, UserManagerService) {
+            var vm = this;
+            activate();
+
+            ////////////////
+
+            function activate() {
+
+                vm.filter = UserManagerService.filter;
+
+                vm.submitForm =function() {
+                    console.log('执行检索');
+                    UserManagerService.getUserList();
+                };
+
+            }
+
+        }]);
+
+    })();
+
+    // #endregion
+
+    // #region 用户管理业务
+    (function () {
+        'use strict';
+
+        angular.module('angle').register.factory('UserManagerService', ['$http', '$q', function ($http, $q) {
+            var self = this;
+            self.userInfo = {
+                list: []
+            };
+            self.filter = {
+                username: ''
+            };
+
+            self.paging = {
+                currentPage: 1,
+                pageSize: 10,
+                total:0
+            };
+
+
+            self.getUserList = function () {
+                $http.post('UserManager/List', {
+                        pageIndex:self.paging.currentPage,
+                        pageSize: self.paging.pageSize
+                    })
+                   .success(function (data, status, headers, config) {
+
+                       self.userInfo.list.length = 0;
+
+                       _.forEach(data.AppendData.Data, function (item) {
+                           self.userInfo.list.push(item);
+                       });
+
+                       self.paging.total = data.AppendData.Total;
+                       
+
+                    })
+                   .error(function (data, status, headers, config) {
+                   });
+            };
+            self.createUser = function () {
+                return $http.get('UserManager/Create');
+            };
+
+            self.getUser = function(userid) {
+
+                var uow = $q.defer();
+
+                $http.post('UserManager/Edit', { id: userid })
+                    .success(function (data, status, headers, config) {
+                        uow.resolve(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        uow.reject(data);
+                    });
+
+                return uow.promise;
+
+            };
+
+            self.deleteUser = function(userid) {
+
+                var uow = $q.defer();
+
+                $http.post('UserManager/Delete', { id: userid })
+                    .success(function (data, status, headers, config) {
+                        uow.resolve(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        uow.reject(data);
+                    });
+
+                return uow.promise;
+
+            };
+
+
+            // 采用promise模式是因为在业务里不处理任何与界面，也就是controller里有关的内容
+            self.save = function (user) {
+
+                var d = $q.defer();// 创建工作单元
+
+                $http.post('UserManager/SaveUser', { userInput: user }).success(function (data, status, headers, config) {
+                    console.log('save user ---->', data);
+                    d.resolve(data);
+                }).error(function (data, status, headers, config) {
+                    d.reject(data);
+                });
+
+                return d.promise;
+            };
+
+            return self;
+        }]);
+
+
+    })();
+
+    // #endregion
+   
+    // #region 用户列表数据处理
+    (function () {
+        'use strict';
+
+        angular
+            .module('angle').register
+            .controller('DataTableController', DataTableController);
+
+        DataTableController.$inject = ['$scope', '$compile', '$modal', '$resource', '$http', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'DTColumnBuilder', 'UserManagerService', 'SweetAlert', 'toaster'];
+        function DataTableController($scope, $compile, $modal, $resource, $http, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, UserManagerService, SweetAlert, toaster) {
+            var vm = this;
+
+            vm.persons = UserManagerService.userInfo;//.list;
+
+            activate();
+
+            ////////////////
+
+            function activate() {
+
+                UserManagerService.getUserList();
+
+                vm.dtOptions = DTOptionsBuilder.newOptions()
+                .withPaginationType('full_numbers') // 分页样式
+                .withOption("ordering", false) // 不排序
+                .withOption("info", false) // 显示信息
+                .withOption("searching", false) // 不允许搜索
+                .withOption("paging", false)
+                .withLanguage({
+                    processing: "处理中...",
+                    lengthMenu: "每页显示 _MENU_ 项结果",
+                    zeroRecords: "没有匹配结果",
+                    info: "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项；当前第 _PAGE_页，共 _PAGES_ 页",
+                    infoEmpty: "显示第 0 至 0 项结果，共 0 项",
+                    infoFiltered: "(由 _MAX_ 项结果过滤)",
+                    infoPostFix: "",
+                    search: "搜索:",
+                    url: "",
+                    emptyTable: "表中数据为空",
+                    loadingRecords: "载入中...",
+                    infoThousands: ",",
+                    paginate: {
+                        first: "首页",
+                        previous: "上页",
+                        next: "下页",
+                        last: "末页"
+                    },
+                    oAria: {
+                        sortAscending: ": 以升序排列此列",
+                        sortDescending: ": 以降序排列此列"
+                    }
+                }) // 语言
+
+                ;
+
+                vm.dtColumnDefs = [
+                    DTColumnDefBuilder.newColumnDef(0).notVisible(),
+                    DTColumnDefBuilder.newColumnDef(1),
+                    DTColumnDefBuilder.newColumnDef(2),
+                    DTColumnDefBuilder.newColumnDef(3)
+                ];
+
+            }
+
+            vm.edit = edit;
+            vm.delete = del;
+
+            function edit(id) {
+                console.log('编辑', id);
+
+                UserManagerService.getUser(id).then(function (opresult) {
+
+                    console.log('save user opresult ---->', opresult);
+                    if (opresult == null) {
+                        toaster.pop('error', '通知', '返回结果为空');
+                        return;
+                    }
+
+                    if (opresult.ResultType === 0) {
+                        opDialog(opresult.AppendData);
+
+                    } else if (opresult.ResultType === 7) {
+                        toaster.pop('error', '错误', opresult.Message);
+                    }
+
+                });
+
+
+            };
+
+            function del(id) {
+                console.log('删除', id);
+
+                SweetAlert.swal({
+                    title: '确定删除吗?',
+                    text: '删除数据后数据将永久删除,不可撤销',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: '确定',
+                    cancelButtonText: '删除',
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+
+                        UserManagerService.deleteUser(id).then(function(opResult) {
+                            
+                            if (opResult.ResultType === 0) {
+                                SweetAlert.swal(opResult.Message, '', 'success');
+                                UserManagerService.getUserList();
+                            }
+
+                        });
+
+                        
+                    } 
+                });
+
+            }
+
+
+            function opDialog(dialogData) {
+
+                var modalInstance = $modal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'myModalContent.html',
+                    controller: 'ModalInstanceCtrl',
+                    backdrop: 'static',// 静态
+                    keyboard: false,// 不能通过esc关闭
+                    resolve: {
+                        userInfo: function () {
+                            return dialogData;//opResult.AppendData;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (user) {
+
+                    console.log('save user ---->', user);
+
+                    UserManagerService.save(user).then(function (opresult) {
+
+                        console.log('save user opresult ---->', opresult);
+                        if (opresult == null) {
+                            toaster.pop('error', '通知', '返回结果为空');
+                            return;
+                        }
+
+                        if (opresult.ResultType === 0) {
+                            toaster.pop('success', '通知', opresult.Message);
+                            UserManagerService.getUserList();
+
+                        } else if (opresult.ResultType === 7) {
+                            toaster.pop('error', '错误', opresult.Message);
+                        }
+
+                    });
+                }, function () {
+                    // 取消操作
+                });
+
+            }
+        }
+
+    })();
+
+    // #endregion
+
+    // #region 分页控件的处理
+    (function () {
+        'use strict';
+        angular.module('angle').register.controller('UserPagingController', ['paginationConfig','UserManagerService',
+                function (paginationConfig, UserManagerService) {
+                    var vm = this;
+                    
+                    activate();
+                    ////////////////
+
+                    function activate() {
+
+                       // vm.numPages = 1;
+
+                        vm.paging = UserManagerService.paging;
+
+                        vm.paging.pageSize = 10;
+                        vm.pageSizes = [5, 10, 20, 50, 100];
+
+                        vm.setPage = function (pageNo) {
+                            vm.paging.currentPage = pageNo;
+                        };
+
+                        vm.setNumPages=function() {
+                            console.log('setnumpages');
+                        }
+
+                        vm.pageChanged = function () {
+                            console.log('切换页面到: ' + vm.paging.currentPage);
+                            UserManagerService.getUserList();
+                        };
+
+                        vm.pageSizeChanged = function (pagesize) {
+
+                            vm.paging.pageSize = pagesize;
+                            vm.setPage(1);
+                            vm.pageChanged();
+                        }
+
+                    }
+                }]);
+    })();
+    // #endregion
+    
+    // #region 按钮操作的处理
+    (function () {
+        'use strict';
+
+        var app = angular.module('angle');
+        app.register
+            .controller('OperationController', ['$scope', '$modal', 'UserManagerService', 'toaster', function ($scope, $modal, UserManagerService, toaster) {
+
+                var self = this;
+
+                activate();
+
+                ////////////////
+
+                function activate() {
+
+                    self.add = function () {
+
+                        UserManagerService.createUser().then(function success(data) {
+
+                            var opResult = data.data;
+                            console.log('data', opResult);
+
+                            if (opResult == null) {
+                                return;
+                            }
+
+                            if (opResult.ResultType === 0) {
+                                opDialog(opResult.AppendData);
+                            }
+
+                        });
+                    };
+                }
+
+                function opDialog(dialogData) {
+                    
+                    var modalInstance = $modal.open({
+                        animation: $scope.animationsEnabled,
+                        templateUrl: 'myModalContent.html',
+                        controller: 'ModalInstanceCtrl',
+                        backdrop: 'static',// 静态
+                        keyboard: false,// 不能通过esc关闭
+                        resolve: {
+                            userInfo: function () {
+                                return dialogData;//opResult.AppendData;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (user) {
+
+                        console.log('save user ---->', user);
+
+                        UserManagerService.save(user).then(function (opresult) {
+
+                            console.log('save user opresult ---->', opresult);
+                            if (opresult == null) {
+                                toaster.pop('error', '通知', '返回结果为空');
+                                return;
+                            }
+
+                            if (opresult.ResultType === 0) {
+                                toaster.pop('success', '通知', opresult.Message);
+                                UserManagerService.getUserList();
+
+                            } else if (opresult.ResultType === 7) {
+                                toaster.pop('error', '错误', opresult.Message);
+                            }
+
+                        });
+                    }, function () {
+                        // 取消操作
+                    });
+
+                }
+
+            }]);
+        // 编辑用户弹出框的controller
+        app.register.controller('ModalInstanceCtrl', function ($scope, $modalInstance, userInfo) {
+
+            $scope.user = userInfo;
+
+            $scope.submitted = false;
+
+
+            $scope.submitForm = function () {
+                $scope.submitted = true;
+                if ($scope.formValidate.$valid) {
+                    console.log('Submitted!!');
+                    $scope.ok();
+                    return true;
+                } else {
+                    console.log('Not valid!!');
+                    return false;
+                }
+
+            };
+
+            $scope.validateInput = function (name, type) {
+                var input = $scope.formValidate[name];
+                return (input.$dirty || $scope.submitted) && input.$error[type];
+            };
+
+            $scope.ok = function () {
+                $modalInstance.close($scope.user);
+            };
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+
+        });
+    })();
+
+    // #endregion 
+    
+
+</script>

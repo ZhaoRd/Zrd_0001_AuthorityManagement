@@ -1,0 +1,62 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ assembly name="$(SolutionDir)\packages\Apworks.2.5.5164.37969\lib\net45\Apworks.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Skymate.Infrastructure.1.0\lib\net45\Skymate.Infrastructure.dll" #>
+
+<#@ assembly name="$(SolutionDir)\2-Core\AuthorityManagement.Core.Domain\bin\Debug\AuthorityManagement.Core.Domain.dll" #>
+<#@ import namespace="AuthorityManagement.Core.Domains" #>
+
+
+<#@ output extension=".cs" #>
+
+/*****************************************************************************
+*   该文件由T4模版生成
+*   如需添加其他功能，请在相同空间命下建立部分类
+*
+*
+*
+*****************************************************************************/
+
+using AuthorityManagement.Core.Domains;
+using System.Data.Entity;
+
+/*SkymateBase*/
+public partial class AuthorityManagementContext : DbContext 
+{
+ #region Ctor
+    /// <summary>
+    /// 构造函数，初始化一个新的<c>ByteartRetailDbContext</c>实例。
+    /// </summary>
+    public AuthorityManagementContext()
+        : base("AuthorityManagement_Demo")
+    {
+        this.Configuration.AutoDetectChangesEnabled = true;
+        this.Configuration.LazyLoadingEnabled = true;
+    }
+    #endregion
+ #region Public Properties
+ <#
+ 
+  var assembly = typeof(User).Assembly;
+  var types = assembly.GetTypes()
+                    .Where(t => String.Equals(
+                        t.Namespace,
+                        "AuthorityManagement.Core.Domains",
+                        StringComparison.Ordinal))
+                    .ToArray();
+  foreach(var modeltype in types)
+  {
+   #>
+  public DbSet<<#= modeltype.Name#>> <#= modeltype.Name#>s
+        {
+            get { return Set<<#= modeltype.Name#>>(); }
+        }
+   <#
+  }
+ #>
+ #endregion
+}

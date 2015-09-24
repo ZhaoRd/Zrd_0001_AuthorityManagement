@@ -1,0 +1,23 @@
+﻿@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+    ViewBag.Title = "Index";
+}
+
+<h3>
+    <!-- START Language list-->
+    
+    <!-- END Language list    -->
+    Single View
+    <small>{{ 'dashboard.WELCOME' | translate:{ appName: app.name } }} !</small>
+</h3>
+<div class="row" >
+    <div class="col-xs-12 text-center">
+        <h2 class="text-thin">Single view content</h2>
+        <p>
+            This project is an application skeleton. You can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.
+            <br />The seed app doesn't do much and has most of the feature removed so you can add theme as per your needs just following the demo app examples.
+        </p>
+    </div>
+</div>
+

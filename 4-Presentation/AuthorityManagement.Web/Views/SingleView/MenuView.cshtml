@@ -1,0 +1,45 @@
+﻿@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+    ViewBag.Title = "MenuView";
+}
+
+
+<h3>Page title
+    <small>Subtitle</small>
+</h3>
+<div class="row" >
+    <div class="col-lg-12">
+        <p>A blank template</p>
+    </div>
+    
+</div>
+<div class="row" ng-controller="MyBtnController">
+    <div class="col-lg-12">
+        <button class="btn btn-square btn-warning" type="button" ng-click="warningClick()">Warning</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    (function () {
+        'use strict';
+
+        console.log('子菜单初始化');
+        var app = angular.module('angle');
+        console.log('angleapp', app);
+
+        // 通过这种方法可以正确定义controller
+        app.register.controller('MyBtnController', ['$scope', function ($scope) {
+            activate();
+            function activate() {
+                console.log('subMenu1  activate');
+            }
+            $scope.warningClick = function () {
+                console.log('按钮单击');
+            };
+            $scope.name = "测试";
+        }]);
+
+    })();
+</script>

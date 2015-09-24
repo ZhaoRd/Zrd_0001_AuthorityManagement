@@ -1,0 +1,12 @@
+﻿/**
+    Override Angle default styles
+    Brings clarity by adding independent styles required for MVC projects
+*/
+
+.preloader-progress {
+  background-image: url(/Images/preloader/preloader.empty.png);
+}
+
+.preloader-progress-bar {
+  background-image: url(/Images/preloader/preloader.full.png);
+}

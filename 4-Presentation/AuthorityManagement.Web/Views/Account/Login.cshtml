@@ -1,0 +1,146 @@
+﻿@{
+    this.Layout = null;
+    ViewBag.Title = "List";
+}
+<div ng-controller="LoginFormController as login" class="block-center mt-xl wd-xl">
+   <!-- START panel-->
+   <div class="panel panel-dark panel-flat">
+      <div class="panel-heading text-center">
+         <a href="#">
+             @*<img src="app/img/logo.png" alt="Image" class="block-center img-rounded" />*@
+             二进制权限管理系统
+         </a>
+      </div>
+      <div class="panel-body">
+         <p class="text-center pv">请登录.</p>
+          <form role="form" ng-submit="login.login()" name="login.loginForm" 
+              novalidate="" class="form-validate mb-lg">
+            <div class="form-group has-feedback">
+                <input name="account_email" placeholder="输入账号" 
+                       autocomplete="off" ng-model="login.account.UserName" 
+                       required="" class="form-control" />
+               <span class="fa fa-envelope form-control-feedback text-muted"></span>
+               <span ng-show="login.loginForm.account_email.$dirty &amp;&amp; login.loginForm.account_email.$error.required" class="text-danger">This field is required</span>
+               
+            </div>
+            <div class="form-group has-feedback">
+               <input id="exampleInputPassword1" type="password" name="account_password" placeholder="输入密码" ng-model="login.account.Password" required="" class="form-control" />
+               <span class="fa fa-lock form-control-feedback text-muted"></span>
+               <span ng-show="login.loginForm.account_password.$dirty &amp;&amp; login.loginForm.account_password.$error.required" class="text-danger">This field is required</span>
+            </div>
+            <div class="clearfix">
+               <div class="checkbox c-checkbox pull-left mt0">
+                  <label>
+                     <input type="checkbox" value="" name="account_remember" ng-model="login.account.RemeberMe" />
+                     <span class="fa fa-check"></span>记住登陆</label>
+               </div>
+               @*<div class="pull-right"><a ui-sref="page.recover" class="text-muted">Forgot your password?</a>
+               </div>*@
+            </div>
+            <button type="submit" class="btn btn-block btn-primary mt-lg">登录</button>
+         </form>
+         @*<div ng-show="login.authMsg" class="alert alert-danger text-center">{{login.authMsg}}</div>
+         <p class="pt-lg text-center">Need to Signup?</p><a ui-sref="page.register" class="btn btn-block btn-default">Register Now</a>*@
+      </div>
+   </div>
+   <!-- END panel-->
+   <div class="p-lg text-center">
+      <span>&copy;</span>
+      <span ng-bind="app.year"></span>
+      <span>-</span>
+      <span ng-bind="app.name"></span>
+      <br/>
+      
+   </div>
+</div>
+
+<script>
+    (function() {
+        
+        'use strict';
+
+        var app = angular.module('angle');
+
+        app.register.service('AccountService', ['$http', '$q', function ($http, $q) {
+
+            var self = this;
+
+            self.login=function(account) {
+                
+                var uow = $q.defer();
+
+                $http.post('Account/Login', { loginModel: account })
+                    .success(function (data, status, headers, config) {
+                        uow.resolve(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        uow.reject(data);
+                    });
+
+                return uow.promise;
+
+            }
+
+            return self;
+
+        }]);
+
+        app.register.controller('LoginFormController', ['AccountService', '$stateParams', '$location', '$rootScope', '$state', function (accountService, $stateParams, $location, $rootScope, $state) {
+
+            var vm = this;
+
+
+            var returnUrl = $stateParams.returnUrl;
+            console.log('returnUrl', returnUrl);
+            active();
+
+            $rootScope.$on('$stateChangeError',
+                function (event, toState, toParams, fromState, fromParams, error) {
+                    console.log('stateChangeError');
+                    console.log(toState, toParams, fromState, fromParams, error);
+
+                    if (error.status == 401) {
+                    
+                    }   
+            });
+            
+            function active() {
+                
+                vm.account= {
+                    UserName: '',
+                    Password: '',
+                    RemeberMe: false
+                }
+
+                vm.login=function() {
+                    console.log('登录', vm.account.RemeberMe);
+                    accountService.login(vm.account).then(function(data) {
+                        console.log(data);
+                        if (data == null) {
+                            return;
+                        }
+
+                        if (data.ResultType === 0) {
+                            console.log('登录成功');
+                            if (returnUrl == null) {
+                                $location.path('/SingleView');
+                            } else {
+                                $state.go(returnUrl);
+                                //$location.path();
+                            }
+                        }
+
+                        if (data.ResultType === 7) {
+                            
+                        }
+
+                    });
+                }
+
+            }
+
+        }]);
+
+    })();
+</script>
+

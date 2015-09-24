@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url("fonts/opensans/v8/4fu8RBPDDCYpod03lr_bYQ.eot");
+  src: local('Open Sans'), local('OpenSans'), 
+      url("fonts/opensans/v8/4fu8RBPDDCYpod03lr_bYQ.eot") format('embedded-opentype'), 
+      url("fonts/opensans/v8/uYKcPVoh6c5R0NpdEY5A-Q.woff") format('woff');
+}
+
+/*/assets/global/css/googlefont/*/

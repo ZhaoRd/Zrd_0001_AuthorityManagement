@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/Scripts/jquery-1.8.2.js"></script>
+    
+    <script type="text/javascript">
+        $().ready(function() {
+
+            //alert('初始化');
+
+            $.ajax({
+                url: '/Home/Welcome',
+                type: 'get',
+                datatype: 'json',
+                success: function(data) {
+                    alert(data.ErrorMessage);
+                }
+            });
+
+        });
+    </script>
+
+}

@@ -1,0 +1,653 @@
+﻿@{
+    this.Layout = null;
+    ViewBag.Title = "List";
+}
+
+<h3>角色管理</h3>
+
+<div class="panel panel-default" ng-controller="SearchController as panel">
+ 
+    <div ng-class="{'panel-heading-collapsed':panelSearch}" class="panel-heading">
+        <em class="fa fa-filter"></em>搜索条件|
+        <small>设置搜索角色的条件</small>
+
+        <div class="pull-right" tool-collapse="tool-collapse">
+            <a class="ng-scope" ng-click="panelSearch = !panelSearch" 
+               panel-collapse="" >
+                <em class="fa fa-plus ng-hide" ng-show="panelSearch" style=""></em>
+                <em class="fa fa-minus" ng-show="!panelSearch" style=""></em>
+            </a>
+            
+        </div>
+        
+    </div>
+    
+    <div collapse="panelSearch" class="panel-wrapper">
+        <div class="panel-body">
+            <form name="formSearch" ng-submit="panel.submitForm()"
+                  novalidate="" class="form-horizontal">
+                
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">角色名称</label>
+                    <div class="col-lg-6">
+                        <input type="text" name="username" required="" ng-model="filter.username" class="form-control" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-lg-3 control-label"></label>
+                    <div class="col-lg-6">
+                        <button type="submit" class="btn btn-info">搜索</button>
+                        <button type="reset" class="btn btn-danger">重置</button>
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div class="panel panel-default">
+    
+    <div class="panel-heading" ng-controller="OperationController as operation">
+        <em class="fa fa-table"></em>角色列表
+        
+        <div class="pull-right">
+            <button class="btn btn-labeled btn-info" type="button"
+                    ng-click="operation.add()">
+                <span class="btn-label">
+                    <i class="fa fa-plus"></i>
+                </span>
+                新增角色
+            </button>
+        </div>
+
+    </div>
+    <div class="panel-body">
+        
+        <div class="row" ng-controller="DataTableController as table1">
+            <div class="col-lg-12">
+                <table datatable="ng" class="row-border hover" 
+                       dt-options="table1.dtOptions"
+                       dt-column-defs="table1.dtColumnDefs">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>角色名称</th>
+                            <th>角色描述</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="role in table1.roles">
+                            <td>{{ role.Id }}</td>
+                            <td>{{ role.RoleName }}</td>
+                            <td>{{ role.Description }}</td>
+                            <td>
+                                <button type="button" ng-click="table1.edit(role.Id)" class="btn btn-sm btn-warning"
+                                    ng-disabled="role.IsDefault">
+                                    <em class="fa fa-edit"></em>编辑
+                                </button>
+                                <button type="button" ng-click="table1.delete(role.Id)" class="btn btn-sm btn-danger"
+                                    ng-disabled="role.IsDefault">
+                                    <em class="fa fa-trash-o"></em>删除
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row" ng-controller="PagingController as pag">
+            <div class="col-lg-3" style="margin-top: 21px">
+                <span>每页显示</span>
+                <div dropdown="dropdown" class="btn-group">
+                    <button dropdown-toggle="" class="btn btn-default">{{pag.paging.pageSize}} <b class="caret"></b>
+                    </button>
+                    <ul role="menu" class="dropdown-menu animated fadeIn">
+                        
+                        <li ng-repeat="sizeitem in pag.pageSizes">
+                            <a ng-click="pag.pageSizeChanged(sizeitem)">{{sizeitem}}</a>
+                        </li>
+                    </ul>
+                </div>
+                条数据
+            </div>
+            <div class="col-lg-9">
+                <pagination total-items="pag.paging.total"
+                            ng-model="pag.paging.currentPage" 
+                            max-size="pag.paging.pageSize"
+                            items-per-page="pag.paging.pageSize"
+                            boundary-links="true" rotate="false"
+                            num-pages="pag.numPages"
+                            ng-change="pag.pageChanged()"
+                            previous-text="上一页"
+                            next-text="下一页"
+                            first-text="首页"
+                            last-text="尾页"
+                            class="pagination-sm"></pagination>
+                <pre> 显示第 {{(pag.paging.currentPage-1)*pag.paging.pageSize+1}} 至 {{pag.paging.currentPage*pag.paging.pageSize < pag.paging.total ? pag.paging.currentPage*pag.paging.pageSize:pag.paging.total}} 项结果，共 {{pag.paging.total}} 项；当前第 {{pag.paging.currentPage}} 页，共 {{pag.numPages}} 页   </pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<toaster-container toaster-options="{'position-class': 'toast-bottom-right', 'close-button':true}"></toaster-container>      
+
+
+<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">编辑角色</h3>
+        </div>
+        <div class="modal-body">
+            <form name="formValidate" ng-submit="submitForm()"
+                    novalidate="" class="form-validate form-horizontal">
+                
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">角色名称<small class="text-muted">*</small></label>
+                    <div class="col-lg-6">
+                        <input type="text" name="rolename" required="" ng-model="role.RoleName" class="form-control" />
+                        
+                    </div>
+                    <div class="col-lg-3 ">
+                        <span ng-show="validateInput('rolename', 'required')" class="text-danger">
+                            必须填入角色名称
+                        </span>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">角色描述</label>
+                    <div class="col-lg-6">
+                        <textarea ng-model="role.Description" class="form-control"></textarea>
+                        
+                        <!--
+                        <input type="text" name="username" required="" ng-model="user.UserName" class="form-control" />
+                        -->
+
+                    </div>
+                    <div class="col-lg-3 ">
+                        
+                    </div>
+                </div>
+                
+            </form>
+    
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="submitForm()">保存</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+        </div>
+</script>
+
+
+<script type="text/javascript">
+    
+
+    // #region 用户管理业务
+    (function () {
+        'use strict';
+
+        angular.module('angle').register.factory('RoleManagerService', ['$http', '$q', function ($http, $q) {
+            var self = this;
+
+            self.roleList = [];
+            self.filter = {
+                rolename: ''
+            };
+
+            self.paging = {
+                currentPage: 1,
+                pageSize: 10,
+                total: 0
+            };
+
+
+            self.getList = function () {
+                $http.post('RoleManager/List', {
+                    pageIndex: self.paging.currentPage,
+                    pageSize: self.paging.pageSize
+                })
+                   .success(function (data, status, headers, config) {
+
+                       self.roleList.length = 0;
+
+                       _.forEach(data.AppendData.Data, function (item) {
+                           self.roleList.push(item);
+                       });
+
+                       self.paging.total = data.AppendData.Total;
+
+                   })
+                   .error(function (data, status, headers, config) {
+                   });
+            };
+
+
+            self.createRole = function () {
+                
+                console.log('service create');
+
+                var uow = $q.defer();
+
+                $http.get('RoleManager/Create')
+                    .success(function (data, status, headers, config) {
+                        uow.resolve(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        uow.reject(data);
+                    });
+
+                return uow.promise;
+            };
+
+            self.edit = function (editid) {
+                console.log('editid ---->', editid);
+                var uow = $q.defer();
+
+                $http.post('RoleManager/Edit', { id: editid })
+                    .success(function (data, status, headers, config) {
+                        uow.resolve(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        uow.reject(data);
+                    });
+
+                return uow.promise;
+
+            };
+
+            self.delete = function (userid) {
+
+                var uow = $q.defer();
+
+                $http.post('RoleManager/Delete', { id: userid })
+                    .success(function (data, status, headers, config) {
+                        uow.resolve(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        uow.reject(data);
+                    });
+
+                return uow.promise;
+
+            };
+
+            self.save = function (tosave) {
+
+                var d = $q.defer();
+
+                $http.post('RoleManager/SaveRole', { roleInput: tosave }).success(function (data, status, headers, config) {
+                    d.resolve(data);
+                }).error(function (data, status, headers, config) {
+                    d.reject(data);
+                });
+
+                return d.promise;
+            };
+
+            return self;
+        }]);
+
+
+    })();
+
+    // #endregion
+
+
+    // #region 检索面板的处理
+    
+    (function() {
+        'use strict';
+
+        var app = angular.module('angle');
+
+        app.register.controller('SearchController', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
+            var vm = this;
+            activate();
+
+            ////////////////
+
+            function activate() {
+
+                vm.filter = RoleManagerService.filter;
+
+                vm.submitForm =function() {
+                    
+                    RoleManagerService.getUserList();
+                };
+
+            }
+
+        }]);
+
+    })();
+
+    // #endregion
+
+    // #region 用户列表数据处理
+    (function () {
+        'use strict';
+
+        angular
+            .module('angle').register
+            .controller('DataTableController', DataTableController);
+
+        DataTableController.$inject = ['$scope', '$compile', '$modal', '$resource', '$http', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'DTColumnBuilder', 'RoleManagerService', 'SweetAlert', 'toaster'];
+        function DataTableController($scope, $compile, $modal, $resource, $http, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, RoleManagerService, SweetAlert, toaster) {
+            var vm = this;
+
+            activate();
+
+            ////////////////
+
+            function activate() {
+
+                vm.roles = RoleManagerService.roleList;
+
+                RoleManagerService.getList();
+
+                vm.dtOptions = DTOptionsBuilder.newOptions()
+                .withPaginationType('full_numbers') // 分页样式
+                .withOption("ordering", false) // 不排序
+                .withOption("info", false) // 显示信息
+                .withOption("searching", false) // 不允许搜索
+                .withOption("paging", false)
+                .withLanguage({
+                    processing: "处理中...",
+                    lengthMenu: "每页显示 _MENU_ 项结果",
+                    zeroRecords: "没有匹配结果",
+                    info: "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项；当前第 _PAGE_页，共 _PAGES_ 页",
+                    infoEmpty: "显示第 0 至 0 项结果，共 0 项",
+                    infoFiltered: "(由 _MAX_ 项结果过滤)",
+                    infoPostFix: "",
+                    search: "搜索:",
+                    url: "",
+                    emptyTable: "表中数据为空",
+                    loadingRecords: "载入中...",
+                    infoThousands: ",",
+                    paginate: {
+                        first: "首页",
+                        previous: "上页",
+                        next: "下页",
+                        last: "末页"
+                    },
+                    oAria: {
+                        sortAscending: ": 以升序排列此列",
+                        sortDescending: ": 以降序排列此列"
+                    }
+                }) // 语言
+
+                ;
+
+                vm.dtColumnDefs = [
+                    DTColumnDefBuilder.newColumnDef(0).notVisible(),
+                    DTColumnDefBuilder.newColumnDef(1),
+                    DTColumnDefBuilder.newColumnDef(2),
+                    DTColumnDefBuilder.newColumnDef(3)
+                ];
+
+            }
+
+            vm.edit = edit;
+            vm.delete = del;
+
+            function edit(id) {
+                console.log('编辑', id);
+
+                RoleManagerService.edit(id).then(function (opresult) {
+
+                    if (opresult == null) {
+                        toaster.pop('error', '通知', '返回结果为空');
+                        return;
+                    }
+
+                    if (opresult.ResultType === 0) {
+                        opDialog(opresult.AppendData);
+
+                    } else if (opresult.ResultType === 7) {
+                        toaster.pop('error', '错误', opresult.Message);
+                    }
+
+                });
+
+
+            };
+
+            function del(id) {
+                console.log('删除', id);
+
+                SweetAlert.swal({
+                    title: '确定删除吗?',
+                    text: '删除数据后数据将永久删除,不可撤销',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: '确定',
+                    cancelButtonText: '删除',
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+
+                        RoleManagerService.delete(id).then(function(opResult) {
+                            
+                            if (opResult.ResultType === 0) {
+                                SweetAlert.swal(opResult.Message, '', 'success');
+                                RoleManagerService.getList();
+                            }
+
+                        });
+
+                        
+                    } 
+                });
+
+            }
+
+
+            function opDialog(dialogData) {
+
+                var modalInstance = $modal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'myModalContent.html',
+                    controller: 'ModalInstanceCtrl',
+                    backdrop: 'static',// 静态
+                    keyboard: false,// 不能通过esc关闭
+                    resolve: {
+                        editInfo: function () {
+                            return dialogData;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (editInfo) {
+
+                    RoleManagerService.save(editInfo).then(function (opresult) {
+
+                        if (opresult == null) {
+                            toaster.pop('error', '通知', '返回结果为空');
+                            return;
+                        }
+
+                        if (opresult.ResultType === 0) {
+                            toaster.pop('success', '通知', opresult.Message);
+                            RoleManagerService.getList();
+
+                        } else if (opresult.ResultType === 7) {
+                            toaster.pop('error', '错误', opresult.Message);
+                        }
+                    });
+                }, function () {
+                    // 取消操作
+                });
+
+            }
+        }
+
+    })();
+
+    // #endregion
+
+    // #region 分页控件的处理
+    (function () {
+        'use strict';
+        angular.module('angle').register.controller('PagingController', ['RoleManagerService',function (roleManagerService) {
+                    var vm = this;
+                    
+                    activate();
+                    ////////////////
+
+                    function activate() {
+
+                       // vm.numPages = 1;
+
+                        vm.paging = roleManagerService.paging;
+
+                        vm.paging.pageSize = 10;
+                        vm.pageSizes = [5, 10, 20, 50, 100];
+
+                        vm.setPage = function (pageNo) {
+                            vm.paging.currentPage = pageNo;
+                        };
+
+                        vm.setNumPages=function() {
+                            console.log('setnumpages');
+                        }
+
+                        vm.pageChanged = function () {
+                            console.log('切换页面到: ' + vm.paging.currentPage);
+                            roleManagerService.getList();
+                        };
+
+                        vm.pageSizeChanged = function (pagesize) {
+
+                            vm.paging.pageSize = pagesize;
+                            vm.setPage(1);
+                            vm.pageChanged();
+                        }
+
+                    }
+                }]);
+    })();
+    // #endregion
+    
+    // #region 按钮操作的处理
+    (function () {
+        'use strict';
+
+        var app = angular.module('angle');
+        app.register
+            .controller('OperationController', ['$scope', '$modal', 'RoleManagerService', 'toaster', function ($scope, $modal, roleManagerService, toaster) {
+
+                var self = this;
+
+                activate();
+                function activate() {
+
+                    self.add = function () {
+                        console.log('add');
+
+                        roleManagerService.createRole().then(function(opresult) {
+                            
+                            if (opresult == null) {
+                                toaster.pop('error', '通知', '返回结果为空');
+                                return;
+                            }
+
+                            if (opresult.ResultType === 0) {
+                                opDialog(opresult.AppendData);
+
+                            } else if (opresult.ResultType === 7) {
+                                toaster.pop('error', '错误', opresult.Message);
+                            }
+
+
+
+                        });
+
+                    };
+                }
+
+                function opDialog(dialogData) {
+                    
+                    var modalInstance = $modal.open({
+                        animation: $scope.animationsEnabled,
+                        templateUrl: 'myModalContent.html',
+                        controller: 'ModalInstanceCtrl',
+                        backdrop: 'static',// 静态
+                        keyboard: false,// 不能通过esc关闭
+                        resolve: {
+                            editInfo: function () {
+                                return dialogData;//opResult.AppendData;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (user) {
+
+                        roleManagerService.save(user).then(function (opresult) {
+
+                            console.log('save user opresult ---->', opresult);
+                            if (opresult == null) {
+                                toaster.pop('error', '通知', '返回结果为空');
+                                return;
+                            }
+
+                            if (opresult.ResultType === 0) {
+                                toaster.pop('success', '通知', opresult.Message);
+                                roleManagerService.getList();
+
+                            } else if (opresult.ResultType === 7) {
+                                toaster.pop('error', '错误', opresult.Message);
+                            }
+
+                        });
+                    }, function () {
+                        // 取消操作
+                    });
+
+                }
+
+            }]);
+        // 编辑用户弹出框的controller
+        app.register.controller('ModalInstanceCtrl', function ($scope, $modalInstance, editInfo) {
+
+            $scope.role = editInfo;
+
+            $scope.submitted = false;
+
+            $scope.submitForm = function () {
+                $scope.submitted = true;
+                if ($scope.formValidate.$valid) {
+                    console.log('Submitted!!');
+                    $scope.ok();
+                    return true;
+                } else {
+                    console.log('Not valid!!');
+                    return false;
+                }
+
+            };
+
+            $scope.validateInput = function (name, type) {
+                var input = $scope.formValidate[name];
+                return (input.$dirty || $scope.submitted) && input.$error[type];
+            };
+
+            $scope.ok = function () {
+                $modalInstance.close($scope.role);
+            };
+
+            $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+            };
+
+        });
+    })();
+
+    // #endregion 
+    
+
+</script>

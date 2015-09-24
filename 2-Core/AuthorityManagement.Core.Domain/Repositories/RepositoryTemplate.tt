@@ -1,0 +1,44 @@
+﻿<#+
+// <copyright file="RepositoryTemplate.tt" company="SGS">
+//  Copyright © SGS. All Rights Reserved.
+// </copyright>
+
+public class RepositoryTemplate : CSharpTemplate
+{
+	private string className;  
+ 
+	public RepositoryTemplate(string className)  
+	{  
+		this.className = className;  
+	}  
+
+
+	public override string TransformText()
+	{
+		base.TransformText();
+#>
+
+/**********************************************************************
+*   该文档由T4模板自动生成，如需修改，请在同一命名空间下添加部分类
+*
+*
+*
+**********************************************************************/
+
+using Apworks.Repositories;
+
+using AuthorityManagement.Core.Domains;
+
+namespace AuthorityManagement.Core.Repositories
+{
+	public partial interface I<#= className #>Repository:
+					IRepository<<#= className #>> 
+	{}
+
+}
+<#+
+
+		return this.GenerationEnvironment.ToString();
+	}
+}
+#>

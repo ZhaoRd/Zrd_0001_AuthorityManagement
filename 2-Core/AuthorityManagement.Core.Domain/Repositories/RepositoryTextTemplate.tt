@@ -1,0 +1,51 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+
+
+<#@ assembly name="$(SolutionDir)\packages\Apworks.2.5.5164.37969\lib\net45\Apworks.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Skymate.Infrastructure.1.0.5700.26218\lib\net45\Skymate.Infrastructure.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #> 
+
+
+<#@ assembly name="$(SolutionDir)\2-Core\AuthorityManagement.Core.Domain\bin\Debug\AuthorityManagement.Core.Domain.dll" #>
+<#@ import namespace="AuthorityManagement.Core.Domains" #>
+
+<#@ output extension=".cs" #>
+<#@ include file="T4Toolbox.tt" #>  
+<#@ include file="RepositoryTemplate.tt" #>  
+
+<# 
+		
+	
+		var assembly = typeof(User).Assembly;
+
+		var types = assembly.GetTypes()
+					.Where(t => String.Equals(
+						t.Namespace,
+						"AuthorityManagement.Core.Domains",
+						StringComparison.Ordinal))
+					//.Where(t=>string.Equals(t.BaseType.Name,"IAggregateRoot",StringComparison.Ordinal))
+					.ToArray();
+
+	 string curPath = Path.GetDirectoryName(Host.TemplateFile);  
+	string destPath = Path.Combine(curPath, "generator");  
+	if(!Directory.Exists(destPath))  
+	{  
+		Directory.CreateDirectory(destPath);  
+	}  
+
+		foreach(var modeltype in types)
+		{
+		var className=modeltype.Name;
+
+		RepositoryTemplate template = new RepositoryTemplate(className);  
+		string fileName = string.Format(@"{0}\I{1}Repository.cs", destPath, className);  
+		template.Output.Encoding = Encoding.UTF8;  
+		template.RenderToFile(fileName);  
+
+		}
+/****/
+	#>

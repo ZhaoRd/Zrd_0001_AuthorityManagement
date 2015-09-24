@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "App";
+}
+<!-- top navbar-->
+<header ng-include="'/Partials/TopNavbar'" class="topnavbar-wrapper"></header>
+<!-- sidebar-->
+<aside ng-include="'/Partials/Sidebar'" ng-controller="SidebarController" class="aside"></aside>
+<!-- offsidebar-->
+<aside ng-include="'/Partials/Offsidebar'" class="offsidebar hide"></aside>
+<!-- Main section-->
+<section>
+    <!-- Page content-->
+    <div ui-view="" autoscroll="false" ng-class="app.viewAnimation" class="content-wrapper"></div>
+</section>
+<!-- Page footer-->
+<footer ng-include="'/Partials/Footer'"></footer>
+
+
+@*
+
+<!DOCTYPE html>
+<html lang="en" data-ng-app="angle">
+
+    <head>
+        
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="{{app.description}}">
+        <meta name="keywords" content="app, responsive, angular, bootstrap, dashboard, admin">
+        <title data-ng-bind="pageTitle()">Angle - Angular Bootstrap Admin Template</title>
+
+
+        <link type="text/css" rel="stylesheet" href="~/Content/app/bootstrap.css"/>
+        <link type="text/css" rel="stylesheet" href="~/Content/app/app.css"/>
+        <link type="text/css" rel="stylesheet" href="~/Content/mvcoverride.css"/>
+        
+        <!-- Themes-->
+        <link rel="stylesheet" ng-href="{{app.layout.theme}}" data-ng-if="app.layout.theme">
+    
+
+    </head>
+
+<body data-ng-class="{ 'layout-fixed' : app.layout.isFixed, 'aside-collapsed' : app.layout.isCollapsed, 'layout-boxed' : app.layout.isBoxed, 'layout-fs': app.useFullLayout, 'hidden-footer': app.hiddenFooter, 'layout-h': app.layout.horizontal, 'aside-float': app.layout.isFloat, 'offsidebar-open': app.offsidebarOpen, 'aside-toggled': app.asideToggled}">
+
+    <!-- Preloader -->
+    <div data-preloader></div>
+    <!-- App Content -->
+    <div data-ui-view="" data-autoscroll="false" 
+         class="wrapper">
+        
+        <!-- top navbar-->
+<header ng-include="'/Partials/TopNavbar'" class="topnavbar-wrapper"></header>
+<!-- sidebar-->
+<aside ng-include="'/Partials/Sidebar'" ng-controller="SidebarController" class="aside"></aside>
+<!-- offsidebar-->
+<aside ng-include="'/Partials/Offsidebar'" class="offsidebar hide"></aside>
+<!-- Main section-->
+<section>
+    <!-- Page content-->
+    <div ui-view="" autoscroll="false" ng-class="app.viewAnimation" class="content-wrapper"></div>
+</section>
+<!-- Page footer-->
+<footer ng-include="'/Partials/Footer'"></footer>
+
+    </div>
+    
+
+    @Scripts.Render("~/bundles/baseScripts")
+
+    @Scripts.Render("~/bundles/appScripts")
+    
+
+    <script type="text/javascript" src="~/Scripts/app/modules/bootstrapui/bootstrapui.module.js"></script>
+    <script type="text/javascript" src="~/Scripts/app/modules/bootstrapui/pagination.controller.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/lodash.js"></script>
+
+</body>
+</html>
+
+*@

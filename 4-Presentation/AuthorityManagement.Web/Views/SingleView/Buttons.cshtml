@@ -1,0 +1,575 @@
+﻿@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+    ViewBag.Title = "Index";
+}
+
+<h3>Buttons</h3>
+<!-- START row-->
+<div class="row">
+   <div class="col-md-6">
+      <!-- START panel-->
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">Button colors</h3>
+         </div>
+         <div class="panel-body">
+            <button type="button" class="mb-sm btn btn-default">Default</button>
+            <button type="button" class="mb-sm btn btn-primary">Primary</button>
+            <button type="button" class="mb-sm btn btn-success">Success</button>
+            <button type="button" class="mb-sm btn btn-info">Info</button>
+            <button type="button" class="mb-sm btn btn-warning">Warning</button>
+            <button type="button" class="mb-sm btn btn-danger">Danger</button>
+            <button type="button" class="mb-sm btn btn-inverse">Inverse</button>
+            <button type="button" class="mb-sm btn btn-green">Green</button>
+            <button type="button" class="mb-sm btn btn-purple">Purple</button>
+            <button type="button" class="mb-sm btn btn-pink">Pink</button>
+            <br/>
+            <br/><a href="#" class="btn btn-link">Button Link</a>
+            <button type="button" class="btn btn-default">
+               <strong>button tag</strong>
+            </button>
+            <a href="#" class="btn btn-default">
+               <strong>anchor tag</strong>
+            </a>
+         </div>
+      </div>
+      <!-- END panel-->
+   </div>
+   <div class="col-md-6">
+      <!-- START panel-->
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">Button Labeled</h3>
+         </div>
+         <div class="panel-body">
+            <!-- Success button with label -->
+            <button type="button" class="btn btn-labeled btn-success">
+               <span class="btn-label"><i class="fa fa-check"></i>
+               </span>Success</button>
+            <!-- Danger button with label -->
+            <button type="button" class="btn btn-labeled btn-danger">
+               <span class="btn-label"><i class="fa fa-times"></i>
+               </span>Danger</button>
+            <!-- Info button with label -->
+            <button type="button" class="btn btn-labeled btn-info">
+               <span class="btn-label"><i class="fa fa-exclamation"></i>
+               </span>Info</button>
+            <!-- Warning button with label -->
+            <button type="button" class="btn btn-labeled btn-warning">
+               <span class="btn-label"><i class="fa fa-warning"></i>
+               </span>Warning</button>
+            <br/>
+            <br/>
+            <!-- Standard button with label -->
+            <button type="button" class="btn btn-labeled btn-default">
+               <span class="btn-label"><i class="fa fa-arrow-left"></i>
+               </span>Left</button>
+            <!-- Standard button with label on the right side -->
+            <button type="button" class="btn btn-labeled btn-default">Right
+               <span class="btn-label btn-label-right"><i class="fa fa-arrow-right"></i>
+               </span>
+            </button>
+         </div>
+      </div>
+      <!-- END panel-->
+   </div>
+</div>
+<!-- END row-->
+<!-- START row-->
+<div class="row">
+   <div class="col-md-6">
+      <!-- START panel-->
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">Button sizing</h3>
+         </div>
+         <div class="panel-body">
+            <div class="row">
+               <div class="col-lg-6">
+                  <p>
+                     <button type="button" class="btn btn-primary btn-lg">Large button</button>
+                     <button type="button" class="btn btn-default btn-lg">Large button</button>
+                  </p>
+                  <p>
+                     <button type="button" class="btn btn-primary">Default button</button>
+                     <button type="button" class="btn btn-default">Default button</button>
+                  </p>
+               </div>
+               <div class="col-lg-6">
+                  <p>
+                     <button type="button" class="btn btn-primary btn-sm">Small button</button>
+                     <button type="button" class="btn btn-default btn-sm">Small button</button>
+                  </p>
+                  <p>
+                     <button type="button" class="btn btn-primary btn-xs">Extra small button</button>
+                     <button type="button" class="btn btn-default btn-xs">Extra small button</button>
+                  </p>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- END panel-->
+   </div>
+   <div class="col-md-6">
+      <!-- START panel-->
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">Button group</h3>
+         </div>
+         <div class="panel-body">
+            <p></p>
+            <div class="btn-group">
+               <button type="button" class="btn btn-default">Left</button>
+               <button type="button" class="btn btn-default">Middle</button>
+               <button type="button" class="btn btn-default">Right</button>
+            </div>
+            <p></p>
+            <p></p>
+            <div class="btn-group">
+               <button type="button" class="btn btn-default">1</button>
+               <button type="button" class="btn btn-default">2</button>
+               <button type="button" class="btn btn-default">3</button>
+               <button type="button" class="btn btn-default">4</button>
+            </div>
+            <div class="btn-group">
+               <button type="button" class="btn btn-default">5</button>
+               <button type="button" class="btn btn-default">6</button>
+               <button type="button" class="btn btn-default">7</button>
+            </div>
+            <div class="btn-group">
+               <button type="button" class="btn btn-default">8</button>
+            </div>
+         </div>
+      </div>
+      <!-- END panel-->
+   </div>
+</div>
+<!-- END row-->
+<!-- START row-->
+<div class="row">
+   <div class="col-md-6">
+      <!-- START panel-->
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">Button Pills</h3>
+         </div>
+         <div class="panel-body">
+            <p>Pill left</p>
+            <p>
+               <button type="button" class="btn btn-pill-left btn-default">Default</button>
+               <button type="button" class="btn btn-pill-left btn-primary">Primary</button>
+               <button type="button" class="btn btn-pill-left btn-success">Success</button>
+               <button type="button" class="btn btn-pill-left btn-info">Info</button>
+               <button type="button" class="btn btn-pill-left btn-warning">Warning</button>
+               <button type="button" class="btn btn-pill-left btn-danger">Danger</button>
+               <button type="button" class="btn btn-pill-left btn-inverse">Inverse</button>
+            </p>
+            <p>Pill right</p>
+            <p>
+               <button type="button" class="btn btn-pill-right btn-default">Default</button>
+               <button type="button" class="btn btn-pill-right btn-primary">Primary</button>
+               <button type="button" class="btn btn-pill-right btn-success">Success</button>
+               <button type="button" class="btn btn-pill-right btn-info">Info</button>
+               <button type="button" class="btn btn-pill-right btn-warning">Warning</button>
+               <button type="button" class="btn btn-pill-right btn-danger">Danger</button>
+               <button type="button" class="btn btn-pill-right btn-inverse">Inverse</button>
+            </p>
+         </div>
+      </div>
+      <!-- END panel-->
+   </div>
+   <div class="col-md-6">
+      <!-- START panel-->
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">Button Oval</h3>
+         </div>
+         <div class="panel-body">
+            <button type="button" class="btn btn-oval btn-default">Default</button>
+            <button type="button" class="btn btn-oval btn-primary">Primary</button>
+            <button type="button" class="btn btn-oval btn-success">Success</button>
+            <button type="button" class="btn btn-oval btn-info">Info</button>
+            <button type="button" class="btn btn-oval btn-warning">Warning</button>
+            <button type="button" class="btn btn-oval btn-danger">Danger</button>
+            <button type="button" class="btn btn-oval btn-inverse">Inverse</button>
+         </div>
+      </div>
+      <!-- END panel-->
+      <!-- START panel-->
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">Button Square</h3>
+         </div>
+         <div class="panel-body">
+            <button type="button" class="btn btn-square btn-default">Default</button>
+            <button type="button" class="btn btn-square btn-primary">Primary</button>
+            <button type="button" class="btn btn-square btn-success">Success</button>
+            <button type="button" class="btn btn-square btn-info">Info</button>
+            <button type="button" class="btn btn-square btn-warning">Warning</button>
+            <button type="button" class="btn btn-square btn-danger">Danger</button>
+            <button type="button" class="btn btn-square btn-inverse">Inverse</button>
+         </div>
+      </div>
+      <!-- END panel-->
+   </div>
+</div>
+<!-- END row-->
+<!-- START row-->
+<div class="row">
+   <div class="col-md-6">
+      <!-- START panel-->
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">Button dropdown</h3>
+         </div>
+         <div class="panel-body">
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group mb-sm">
+               <button type="button" ng-disabled="disabled" dropdown-toggle="" class="btn dropdown-toggle btn-default">default
+                  <span class="caret"></span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group mb-sm">
+               <button type="button" ng-disabled="disabled" dropdown-toggle="" class="btn dropdown-toggle btn-primary">primary
+                  <span class="caret"></span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group mb-sm">
+               <button type="button" ng-disabled="disabled" dropdown-toggle="" class="btn dropdown-toggle btn-success">success
+                  <span class="caret"></span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group mb-sm">
+               <button type="button" ng-disabled="disabled" dropdown-toggle="" class="btn dropdown-toggle btn-info">info
+                  <span class="caret"></span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group mb-sm">
+               <button type="button" ng-disabled="disabled" dropdown-toggle="" class="btn dropdown-toggle btn-warning">warning
+                  <span class="caret"></span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group mb-sm">
+               <button type="button" ng-disabled="disabled" dropdown-toggle="" class="btn dropdown-toggle btn-danger">danger
+                  <span class="caret"></span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group mb-sm">
+               <button type="button" ng-disabled="disabled" dropdown-toggle="" class="btn dropdown-toggle btn-inverse">inverse
+                  <span class="caret"></span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+         </div>
+      </div>
+      <!-- END panel-->
+   </div>
+   <div class="col-md-6">
+      <!-- START panel-->
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title ellipsis">Split button dropdown</h3>
+         </div>
+         <div class="panel-body">
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group">
+               <button type="button" class="btn btn-default">Action</button>
+               <button type="button" dropdown-toggle="" class="btn dropdown-toggle btn-default">
+                  <span class="caret"></span>
+                  <span class="sr-only">default</span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group">
+               <button type="button" class="btn btn-primary">Action</button>
+               <button type="button" dropdown-toggle="" class="btn dropdown-toggle btn-primary">
+                  <span class="caret"></span>
+                  <span class="sr-only">primary</span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group">
+               <button type="button" class="btn btn-success">Action</button>
+               <button type="button" dropdown-toggle="" class="btn dropdown-toggle btn-success">
+                  <span class="caret"></span>
+                  <span class="sr-only">success</span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group">
+               <button type="button" class="btn btn-info">Action</button>
+               <button type="button" dropdown-toggle="" class="btn dropdown-toggle btn-info">
+                  <span class="caret"></span>
+                  <span class="sr-only">info</span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group">
+               <button type="button" class="btn btn-warning">Action</button>
+               <button type="button" dropdown-toggle="" class="btn dropdown-toggle btn-warning">
+                  <span class="caret"></span>
+                  <span class="sr-only">warning</span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group">
+               <button type="button" class="btn btn-danger">Action</button>
+               <button type="button" dropdown-toggle="" class="btn dropdown-toggle btn-danger">
+                  <span class="caret"></span>
+                  <span class="sr-only">danger</span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+            <!-- START button group-->
+            <div dropdown="dropdown" class="btn-group">
+               <button type="button" class="btn btn-inverse">Action</button>
+               <button type="button" dropdown-toggle="" class="btn dropdown-toggle btn-inverse">
+                  <span class="caret"></span>
+                  <span class="sr-only">inverse</span>
+               </button>
+               <ul role="menu" class="dropdown-menu">
+                  <li><a href="#">Action</a>
+                  </li>
+                  <li><a href="#">Another action</a>
+                  </li>
+                  <li><a href="#">Something else here</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END button group-->
+         </div>
+      </div>
+      <!-- END panel-->
+   </div>
+</div>
+<!-- END row-->
+<!-- START panel-->
+<div class="panel panel-default">
+   <div class="panel-heading">
+      <h3 class="panel-title">Button actions</h3>
+   </div>
+   <div class="panel-body">
+      <!-- START row-->
+      <div ng-controller="ButtonsCtrl as btn" class="row">
+         <div class="col-lg-4">
+            <h4>Single toggle</h4><pre>{{btn.singleModel}}        </pre>
+            <button type="button" ng-model="btn.singleModel" btn-checkbox="btn-checkbox" btn-checkbox-true="1" btn-checkbox-false="0" class="btn btn-primary">Single Toggle</button>
+         </div>
+         <div class="col-lg-4">
+            <h4>Checkbox</h4><pre>{{btn.checkModel}}        </pre>
+            <div class="btn-group">
+               <label ng-model="btn.checkModel.left" btn-checkbox="btn-checkbox" class="btn btn-primary">Left</label>
+               <label ng-model="btn.checkModel.middle" btn-checkbox="btn-checkbox" class="btn btn-primary">Middle</label>
+               <label ng-model="btn.checkModel.right" btn-checkbox="btn-checkbox" class="btn btn-primary">Right</label>
+            </div>
+         </div>
+         <div class="col-lg-4">
+            <h4>Radio &amp; Uncheckable Radio</h4><pre>{{btn.radioModel || 'null'}}        </pre>
+            <div class="btn-group">
+               <label ng-model="btn.radioModel" btn-radio="'Left'" class="btn btn-primary">Left</label>
+               <label ng-model="btn.radioModel" btn-radio="'Middle'" class="btn btn-primary">Middle</label>
+               <label ng-model="btn.radioModel" btn-radio="'Right'" class="btn btn-primary">Right</label>
+            </div>
+            <div class="btn-group">
+               <label ng-model="btn.radioModel" btn-radio="'Left'" uncheckable="uncheckable" class="btn btn-success">Left</label>
+               <label ng-model="btn.radioModel" btn-radio="'Middle'" uncheckable="uncheckable" class="btn btn-success">Middle</label>
+               <label ng-model="btn.radioModel" btn-radio="'Right'" uncheckable="uncheckable" class="btn btn-success">Right</label>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- START panel-->
+<div class="panel panel-default">
+   <div class="panel-heading">
+      <h3 class="panel-title">Pagination</h3>
+   </div>
+   <div class="panel-body">
+      <!-- START row-->
+      <div ng-controller="PaginationDemoCtrl as pag" class="row">
+         <div class="col-lg-6">
+            <div>
+               <h4>Default</h4>
+               <pagination total-items="pag.totalItems" ng-model="pag.currentPage" ng-change="pag.pageChanged()"></pagination>
+               <pagination direction-links="false" total-items="pag.totalItems" ng-model="pag.currentPage" num-pages="pag.smallnumPages"></pagination><pre>The selected page no: {{pag.currentPage}}        </pre>
+               <button ng-click="pag.setPage(3)" class="btn btn-info">Set current page to: 3</button>
+            </div>
+         </div>
+         <div class="col-lg-6">
+            <h4>Pager</h4>
+            <pager total-items="pag.totalItems" ng-model="pag.currentPage"></pager>
+            <hr/>
+            <h4>Limit the maximum visible buttons</h4>
+            <pagination total-items="pag.bigTotalItems" ng-model="pag.bigCurrentPage" max-size="pag.maxSize" boundary-links="true" class="pagination-sm"></pagination>
+            <pagination total-items="pag.bigTotalItems" ng-model="pag.bigCurrentPage" max-size="pag.maxSize" boundary-links="true" rotate="false" num-pages="pag.numPages" class="pagination-sm"></pagination><pre>Page: {{pag.bigCurrentPage}} / {{pag.numPages}}        </pre>
+         </div>
+      </div>
+      <!-- END row-->
+   </div>
+</div>
+<!-- END panel-->
+

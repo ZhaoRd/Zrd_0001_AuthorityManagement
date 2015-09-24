@@ -1,0 +1,374 @@
+﻿@{
+    this.Layout = null;
+    ViewBag.Title = "List";
+    
+}
+
+<h3>权限管理</h3>
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="panel panel-default" 
+            ng-controller="RoleController as rolevm">
+            <div class="panel-heading">
+                角色列表
+            </div>
+            
+            <div class="panel-body">
+                
+                <div class="list-group">
+                    <a class="list-group-item" 
+                       ng-repeat="roleItem in rolevm.roles"
+                        ng-click="rolevm.roleSelected(roleItem)">
+                        {{roleItem.RoleName}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-9">
+        <div class="panel panel-default" 
+            ng-controller="PermissionController as permissionvm">
+            <div class="panel-heading">
+                {{permissionvm.selectRole.roleName}} -- 权限列表
+            </div>
+            
+            <div class="panel-body">
+                
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="row-border hover" 
+                               style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>模块名称</th>
+                                    <th ng-repeat="item in permissionvm.permissionDescription" >
+                                        {{item.Description}}
+                                    </th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="permissionItem in permissionvm.permissionList">
+                                    <td>{{permissionItem.FunctionName}}</td>
+                                    
+                                    <td ng-repeat="enum in permissionItem.PermissionEnum" >
+                                        
+                                        <switch ng-model="enum.RoleHas" on="√" off="×" class="green small"
+                                                ng-change="permissionvm.permissionChanged(permissionItem.FunctionId,permissionvm.selectRole.roleId,enum.RoleHas,enum.PermissionValue)"
+                                                disabled="!enum.FunctionHas"
+                                            ></switch>
+
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>        
+                    </div>
+                </div>
+
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    (function() {
+        
+        'use strict';
+
+        var app = angular.module('angle');
+        app.register.factory('PermissionService',['$http','$q',function($http,$q) {
+
+            var self = this;
+
+            self.permissionList = [];
+
+            self.getAllPermissionDescription=function() {
+                
+                var uow = $q.defer();
+
+                $http.get('PermissionManager/PermissionDescription')
+                    .success(function (data, status, headers, config) {
+                        uow.resolve(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        uow.reject(data);
+                    });
+
+                return uow.promise;
+
+            }
+
+            self.allow = function (functionid, roleid, value) {
+
+                var uow = $q.defer();
+
+                $http.post('PermissionManager/Allow', {
+                    acceditInput: {
+                        FunctionId:functionid,
+                        RoleId:roleid,
+                        PermissionValue:value
+                        }
+                    })
+                    .success(function (data, status, headers, config) {
+                        uow.resolve(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        uow.reject(data);
+                    });
+
+                return uow.promise;
+
+            }
+
+            self.forbid = function (functionid, roleid, value) {
+
+                var uow = $q.defer();
+
+                $http.post('PermissionManager/Forbid', {
+                    acceditInput: {
+                        FunctionId: functionid,
+                        RoleId: roleid,
+                        PermissionValue: value
+                    }
+                })
+                    .success(function (data, status, headers, config) {
+                        uow.resolve(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        uow.reject(data);
+                    });
+
+                return uow.promise;
+
+            }
+
+            self.getPermissionList=function(roleId) {
+                
+                $http.post('PermissionManager/GetPermissionList', {
+                        roleId:roleId
+                    })
+                    .success(function (data, status, headers, config) {
+                        
+                        if (data == null) {
+                            return;
+                        }
+                        if (data.ResultType === 0) {
+                            self.permissionList.length = 0;
+
+                            _.forEach(data.AppendData,function(item) {
+                                self.permissionList.push(item);
+                            });
+
+                        }
+
+                    })
+                    .error(function (data, status, headers, config) {
+                        
+                    });
+
+            }
+
+
+            return self;
+
+        }]);
+
+    })();
+
+    (function() {
+        'use strict';
+
+        var app = angular.module('angle');
+        app.register.factory("RoleService", ['$http', '$q', function ($http, $q) {
+
+            var self = this;
+
+            self.selectedRole = {
+                roleId:'',
+                roleName:''
+            };
+
+            self.getAllRoles = function () {
+
+                var uow = $q.defer();
+
+                $http.get('PermissionManager/GetAllRoles')
+                    .success(function (data, status, headers, config) {
+                        uow.resolve(data);
+                    })
+                    .error(function (data, status, headers, config) {
+                        uow.reject(data);
+                    });
+
+                return uow.promise;
+
+            };
+
+            return self;
+
+        }]);
+
+
+    })();
+
+    (function() {
+        
+        'use strict';
+
+        var app = angular.module('angle');
+        app.register.controller("PermissionController", ["RoleService", "PermissionService", function (roleService, permissionService) {
+
+            var vm = this;
+
+            active();
+
+            function active() {
+
+                vm.permissionDescription = [];
+                vm.permissionList = permissionService.permissionList;
+
+                vm.selectRole = roleService.selectedRole;
+                
+
+                vm.permissionChanged = function (functionId, roleId,rolehas, permissionValue) {
+                    console.log('functionId ----> ', functionId);
+                    console.log('roleId ----> ', roleId);
+                    console.log('rolehas ----> ', rolehas);
+                    console.log('permissionValue ----> ', permissionValue);
+
+                    if (rolehas === true) {
+                        permissionService.allow(functionId, roleId, permissionValue).then(
+                            function (data) {
+                                if (data == null) {
+                                    return;
+                                }
+                                console.log('授权结果',data);
+                            });
+                    } else {
+                        permissionService.forbid(functionId, roleId, permissionValue).then(function () {
+                            if (data == null) {
+                                return;
+                            }
+                            console.log('禁止结果', data);
+                        });
+                    }
+                    
+                }
+
+                permissionService.getAllPermissionDescription()
+                    .then(function(opResult) {
+                    
+                        if (opResult == null) {
+                            return;
+                        }
+
+                        if (opResult.ResultType === 0) {
+
+                            vm.permissionDescription.length = 0;
+
+                            _.forEach(opResult.AppendData,function(item) {
+                                vm.permissionDescription.push(item);
+                            });
+
+                        }
+
+                });
+
+                
+            }
+
+        }]);
+
+    })();
+
+    (function() {
+
+        'use strict';
+
+        var app = angular.module('angle');
+        app.register.controller("RoleController", ["RoleService", "PermissionService", function (roleService, permissionService) {
+
+            var vm = this;
+
+            active();
+
+            function active() {
+
+                vm.roles = [];
+
+                vm.roleSelected=function(role) {
+                    console.log('roleSelected ----> ', role);
+                    roleService.selectedRole.roleId = role.Id;
+                    roleService.selectedRole.roleName = role.RoleName;
+                    console.log('roleService.selectedRole ----> ', roleService.selectedRole);
+                    permissionService.getPermissionList(role.Id);
+
+                }
+
+                roleService.getAllRoles().then(function(opResult) {
+                    
+                    if (opResult == null) {
+                        return;
+                    }
+
+                    if (opResult.ResultType === 0) {
+                        vm.roles.length = 0;
+                        _.forEach(opResult.AppendData,function(item) {
+                            vm.roles.push(item);
+                        });
+                    }
+
+                });
+
+            }
+
+        }]);
+
+    })();
+
+</script>
+
+
+@*
+<div class="row">
+    <div class="col-md-4">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption">
+                    角色列表
+                </div>
+                <div class="actions">
+                    
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption">
+                    权限列表
+                </div>
+                <div class="actions">
+                    
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@

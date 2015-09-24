@@ -1,0 +1,52 @@
+[
+  {
+    "text": "菜单标题1",
+    "heading": "true",
+    "translate": ""
+  },
+  {
+    "text": "单页面",
+    "sref": "app.singleview",
+    "icon": "fa fa-file-o",
+    "translate": ""
+  },
+  {
+    "text": "菜单",
+    "sref": "#",
+    "icon": "icon-folder",
+    "submenu": [
+      { "text": "子菜单1", 
+        "sref": "app.menuview", 
+        "translate": "" 
+      },    
+	  { "text": "子菜单2", 
+        "sref": "", 
+        "translate": "" 
+      }
+    ],
+    "translate": ""
+  },
+  {
+	"text": "权限管理的功能",
+    "heading": "true",
+    "translate": ""
+  },
+  {
+    "text": "用户管理",
+    "sref": "app.usermanager",
+    "icon": "fa fa-user",
+    "translate": ""
+  },
+  {
+    "text": "角色管理",
+    "sref": "app.rolemanager",
+    "icon": "fa fa-users",
+    "translate": ""
+  },
+  {
+    "text": "权限管理",
+    "sref": "app.permissionmanager",
+    "icon": "fa fa-archive",
+    "translate": ""
+  }
+]
