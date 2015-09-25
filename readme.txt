@@ -1,18 +1,20 @@
 ##############################################################################################################################################################
 
-È¨ÏÞ¹ÜÀíÏµÍ³DemoµÄËµÃ÷ÎÄµµ
+æƒé™ç®¡ç†ç³»ç»ŸDemoçš„è¯´æ˜Žæ–‡æ¡£
 
 
 
 ###############################################################################################################################################################
 
-Ò»¡¢±àÒëÇ°³õÊ¼»¯Êý¾Ý¿â
-	1.ÉèÖÃÏîÄ¿£º4-Presentation/AuthorityManagement.Web ÏîÄ¿ÎªÆô¶¯ÏîÄ¿(ÓÒ»÷¸ÃÏîÄ¿¼´¿É¿´µ½"ÉèÖÃÎªÆô¶¯ÏîÄ¿")
-	2.ÐÞ¸ÄconnectionStrings ÖÐAuthorityManagement_DemoµÄÁ¬½ÓsqlÃÜÂëÎª×Ô¼ºÊý¾Ý¿âÃÜÂë
-	3.Ö´ÐÐvs²Ëµ¥£º¹¤¾ß->nuget³ÌÐò°ü¹ÜÀíÆ÷->³ÌÐò°ü¹ÜÀíÆ÷¿ØÖÆÌ¨
-	4.ÏÂvsÏÂ·½µÄ"³ÌÐò°ü¹ÜÀíÆ÷¿ØÖÆÌ¨"ÖÐ£¬ÉèÖÃÄ¬ÈÏÏîÄ¿Îª£ºAuthorityManagement.Data
-	5.ÊäÈëÃüÁî£ºUpdate-Database -verbose£¬ÌáÊ¾Íê³ÉÔòËµÃ÷Êý¾Ý¿â³õÊ¼»¯³É¹¦
+ä¸€ã€ç¼–è¯‘å‰åˆå§‹åŒ–æ•°æ®åº“
+	1.è®¾ç½®é¡¹ç›®ï¼š4-Presentation/AuthorityManagement.Web é¡¹ç›®ä¸ºå¯åŠ¨é¡¹ç›®(å³å‡»è¯¥é¡¹ç›®å³å¯çœ‹åˆ°"è®¾ç½®ä¸ºå¯åŠ¨é¡¹ç›®")
+	2.ä¿®æ”¹connectionStrings ä¸­AuthorityManagement_Demoçš„è¿žæŽ¥sqlå¯†ç ä¸ºè‡ªå·±æ•°æ®åº“å¯†ç 
+	3.æ‰§è¡Œvsèœå•ï¼šå·¥å…·->nugetç¨‹åºåŒ…ç®¡ç†å™¨->ç¨‹åºåŒ…ç®¡ç†å™¨æŽ§åˆ¶å°
+	4.ä¸‹vsä¸‹æ–¹çš„"ç¨‹åºåŒ…ç®¡ç†å™¨æŽ§åˆ¶å°"ä¸­ï¼Œè®¾ç½®é»˜è®¤é¡¹ç›®ä¸ºï¼šAuthorityManagement.Data
+	5.è¾“å…¥å‘½ä»¤ï¼šUpdate-Database -verboseï¼Œæç¤ºå®Œæˆåˆ™è¯´æ˜Žæ•°æ®åº“åˆå§‹åŒ–æˆåŠŸ
 
-¶þ¡¢±àÒëË³Ðò
-	ÓÒ»÷Õû¸ö½â¾ö·½°¸£¬±àÒë
-	ÔËÐÐ³ÌÐò¼´¿É
+äºŒã€ç¼–è¯‘é¡ºåº
+	å³å‡»æ•´ä¸ªè§£å†³æ–¹æ¡ˆï¼Œç¼–è¯‘
+	è¿è¡Œç¨‹åºå³å¯
+
+ä¸‰ã€é»˜è®¤è´¦å·å¯†ç ï¼šsuper/super	
