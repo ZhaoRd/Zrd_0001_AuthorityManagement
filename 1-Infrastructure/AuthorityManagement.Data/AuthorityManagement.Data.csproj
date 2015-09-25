@@ -87,33 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dependency\DependencyRegistrar.cs" />
-    <Compile Include="Migrations\201508100915283_db.cs" />
-    <Compile Include="Migrations\201508100915283_db.Designer.cs">
-      <DependentUpon>201508100915283_db.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508152351428_db1.cs" />
-    <Compile Include="Migrations\201508152351428_db1.Designer.cs">
-      <DependentUpon>201508152351428_db1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509020329435_addModelNameInFunction.cs" />
-    <Compile Include="Migrations\201509020329435_addModelNameInFunction.Designer.cs">
-      <DependentUpon>201509020329435_addModelNameInFunction.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509020929277_db2.cs" />
-    <Compile Include="Migrations\201509020929277_db2.Designer.cs">
-      <DependentUpon>201509020929277_db2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509061136022_functionRolePermission.cs" />
-    <Compile Include="Migrations\201509061136022_functionRolePermission.Designer.cs">
-      <DependentUpon>201509061136022_functionRolePermission.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509171202104_guidauto.cs" />
-    <Compile Include="Migrations\201509171202104_guidauto.Designer.cs">
-      <DependentUpon>201509171202104_guidauto.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509190425162_guidnoiden.cs" />
-    <Compile Include="Migrations\201509190425162_guidnoiden.Designer.cs">
-      <DependentUpon>201509190425162_guidnoiden.cs</DependentUpon>
+    <Compile Include="Migrations\201509251557327_dbinit.cs" />
+    <Compile Include="Migrations\201509251557327_dbinit.Designer.cs">
+      <DependentUpon>201509251557327_dbinit.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -177,26 +153,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201508100915283_db.resx">
-      <DependentUpon>201508100915283_db.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508152351428_db1.resx">
-      <DependentUpon>201508152351428_db1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509020329435_addModelNameInFunction.resx">
-      <DependentUpon>201509020329435_addModelNameInFunction.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509020929277_db2.resx">
-      <DependentUpon>201509020929277_db2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509061136022_functionRolePermission.resx">
-      <DependentUpon>201509061136022_functionRolePermission.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509171202104_guidauto.resx">
-      <DependentUpon>201509171202104_guidauto.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509190425162_guidnoiden.resx">
-      <DependentUpon>201509190425162_guidnoiden.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201509251557327_dbinit.resx">
+      <DependentUpon>201509251557327_dbinit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Apworks.Specifications;
+
     using AuthorityManagement.Core.Domains;
     using AuthorityManagement.Core.Repositories;
     using AuthorityManagement.Presentation;
@@ -34,6 +36,11 @@
         private readonly IUserInRoleRepository userInRoleRepository;
 
         /// <summary>
+        /// The role repository.
+        /// </summary>
+        private readonly IRoleRepository roleRepository;
+
+        /// <summary>
         /// The function in role repository.
         /// </summary>
         private readonly IFunctionInRoleRepository functionInRoleRepository;
@@ -53,12 +60,13 @@
         /// <param name="userInRoleRepository">
         /// The user in role repository.
         /// </param>
-        public FunctionService(IFunctionRepository functionRepository, IUserRepository userRepository, IFunctionInRoleRepository functionInRoleRepository, IUserInRoleRepository userInRoleRepository)
+        public FunctionService(IFunctionRepository functionRepository, IUserRepository userRepository, IFunctionInRoleRepository functionInRoleRepository, IUserInRoleRepository userInRoleRepository, IRoleRepository roleRepository)
         {
             this.functionRepository = functionRepository;
             this.userRepository = userRepository;
             this.functionInRoleRepository = functionInRoleRepository;
             this.userInRoleRepository = userInRoleRepository;
+            this.roleRepository = roleRepository;
         }
 
         /// <summary>
@@ -107,7 +115,21 @@
             foreach (var addFunction in toAddFunctions)
             {
                 addFunction.ID = Guid.NewGuid();
+
+                var role = this.roleRepository.Find(
+                    Specification<Role>.Eval(u => u.RoleName == "系统管理员"));
+
                 this.functionRepository.Add(addFunction);
+
+                // 初始化系统管理员的权限
+                this.functionInRoleRepository.Add(new FunctionInRole()
+                {
+                    ID = GuidHelper.GenerateGuid(),
+                    Function = addFunction,
+                    PermissionValue = addFunction.PermissionValue,
+                    Role = role
+                });
+
             }
 
             foreach (var deleteFunction in toDeleteFunctions)
