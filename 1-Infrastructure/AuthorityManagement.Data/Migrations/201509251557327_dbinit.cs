@@ -3,7 +3,7 @@ namespace AuthorityManagement.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class db : DbMigration
+    public partial class dbinit : DbMigration
     {
         public override void Up()
         {
@@ -12,6 +12,7 @@ namespace AuthorityManagement.Data.Migrations
                 c => new
                     {
                         ID = c.Guid(nullable: false),
+                        PermissionValue = c.Int(nullable: false),
                         Function_ID = c.Guid(),
                         Role_ID = c.Guid(),
                     })
@@ -26,11 +27,14 @@ namespace AuthorityManagement.Data.Migrations
                 c => new
                     {
                         ID = c.Guid(nullable: false),
+                        ModelName = c.String(),
                         FunctionName = c.String(),
                         Description = c.String(),
                         AreasName = c.String(),
                         ControllerName = c.String(),
                         ActionName = c.String(),
+                        FunctionType = c.Int(nullable: false),
+                        PermissionValue = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID);
             
@@ -40,6 +44,7 @@ namespace AuthorityManagement.Data.Migrations
                     {
                         ID = c.Guid(nullable: false),
                         RoleName = c.String(),
+                        IsDefault = c.Boolean(nullable: false),
                         Description = c.String(),
                         CreatorUserId = c.Guid(),
                         LastModificationTime = c.DateTime(),
@@ -135,18 +140,18 @@ namespace AuthorityManagement.Data.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.UserInGroups", "User_ID", "dbo.Users");
             DropForeignKey("dbo.UserInRoles", "User_ID", "dbo.Users");
             DropForeignKey("dbo.UserInRoles", "Role_ID", "dbo.Roles");
-            DropForeignKey("dbo.UserInGroups", "User_ID", "dbo.Users");
             DropForeignKey("dbo.UserInGroups", "Group_ID", "dbo.Groups");
             DropForeignKey("dbo.GroupInRoles", "Role_ID", "dbo.Roles");
             DropForeignKey("dbo.GroupInRoles", "Group_ID", "dbo.Groups");
             DropForeignKey("dbo.Groups", "Parent_ID", "dbo.Groups");
             DropForeignKey("dbo.FunctionInRoles", "Role_ID", "dbo.Roles");
             DropForeignKey("dbo.FunctionInRoles", "Function_ID", "dbo.Functions");
+            DropIndex("dbo.UserInGroups", new[] { "User_ID" });
             DropIndex("dbo.UserInRoles", new[] { "User_ID" });
             DropIndex("dbo.UserInRoles", new[] { "Role_ID" });
-            DropIndex("dbo.UserInGroups", new[] { "User_ID" });
             DropIndex("dbo.UserInGroups", new[] { "Group_ID" });
             DropIndex("dbo.GroupInRoles", new[] { "Role_ID" });
             DropIndex("dbo.GroupInRoles", new[] { "Group_ID" });

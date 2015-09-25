@@ -4,6 +4,7 @@ namespace AuthorityManagement.Data.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Net.Mime;
 
     using AuthorityManagement.Core.Domains;
 
@@ -16,25 +17,32 @@ namespace AuthorityManagement.Data.Migrations
 
         protected override void Seed(AuthorityManagementContext context)
         {
-            var userid = new Guid("9F936EC4-0C59-49E8-8552-1B677E22673E");
-            var roleId = new Guid("A21FBA43-349C-4589-A44A-F51EA3172C23");
-            var userInRoleId = new Guid("4AC2325D-4F14-4772-B841-FFF4329BEAAC");
+            var userId=new Guid("5894340B-9973-40B3-8769-FE388D33F62B");
 
-            var addUser = new User
-                              {
-                                  ID = userid,
-                                  CreationTime = DateTime.Now,
-                                  IsActive = true,
-                                  UserName = "super",
-                                  Password = "123qwe",
-                              };
-            var addRole = new Role { ID = roleId, CreationTime = DateTime.Now, IsDefault = true, RoleName = "系统管理员" };
+            var addUesr = new User()
+                            {
+                                ID = userId,
+                                CreationTime = DateTime.Now,
+                                IsActive = true,
+                                IsDeleted = false,
+                                UserName = "super",
+                                Password = "super",
+                            };
+            context.Users.AddOrUpdate(u => u.ID, addUesr);
 
-            var userInRole = new UserInRole { ID = userInRoleId, Role = addRole, User = addUser };
+            var roleId = new Guid("B8D70895-1F6B-416F-A213-484A51E2CC18");
+            var addRole = new Role() { CreationTime = DateTime.Now, ID = roleId, IsDefault = true, RoleName = "系统管理员" };
 
-            context.Users.AddOrUpdate(u => u.ID, addUser);
             context.Roles.AddOrUpdate(u => u.ID, addRole);
-            context.UserInRoles.AddOrUpdate(u => u.ID, userInRole);
+
+            var userinroleid=new Guid("4CE2B167-912E-4A31-B52E-A1E5953A1A23");
+            context.UserInRoles.AddOrUpdate(u=>u.ID,
+                new UserInRole()
+                    {
+                        ID = userinroleid,
+                        Role = addRole,
+                        User = addUesr
+                    });
 
             //  This method will be called after migrating to the latest version.
 

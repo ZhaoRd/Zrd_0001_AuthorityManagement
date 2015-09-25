@@ -85,10 +85,12 @@
                             <td>{{ person.UserName }}</td>
                             <td>{{ person.Email }}</td>
                             <td>
-                                <button type="button" ng-click="table1.edit(person.Id)" class="btn btn-sm btn-warning">
+                                <button type="button" ng-click="table1.edit(person.Id)" class="btn btn-sm btn-warning"
+                                    ng-disabled="person.UserName=='super'">
                                     <em class="fa fa-edit"></em>编辑
                                 </button>
-                                <button type="button" ng-click="table1.delete(person.Id)" class="btn btn-sm btn-danger">
+                                <button type="button" ng-click="table1.delete(person.Id)" class="btn btn-sm btn-danger"
+                                    ng-disabled="person.UserName=='super'">
                                     <em class="fa fa-trash-o"></em>删除
                                 </button>
                             </td>

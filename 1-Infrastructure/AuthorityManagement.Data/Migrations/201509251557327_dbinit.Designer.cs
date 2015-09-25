@@ -7,13 +7,13 @@ namespace AuthorityManagement.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.0.2-21211")]
-    public sealed partial class addModelNameInFunction : IMigrationMetadata
+    public sealed partial class dbinit : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addModelNameInFunction));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(dbinit));
         
         string IMigrationMetadata.Id
         {
-            get { return "201509020329435_addModelNameInFunction"; }
+            get { return "201509251557327_dbinit"; }
         }
         
         string IMigrationMetadata.Source
