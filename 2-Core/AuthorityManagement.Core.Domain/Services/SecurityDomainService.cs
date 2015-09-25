@@ -57,13 +57,13 @@ namespace AuthorityManagement.Core.Services
         }
 
         /// <summary>
-        /// The verify permission.
+        /// 权限验证.
         /// </summary>
         /// <param name="toVerification">
-        /// The to verification.
+        /// 需要验证的权限.
         /// </param>
         /// <param name="functionInRole">
-        /// The function in role.
+        /// 已经存在的权限.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
@@ -75,16 +75,16 @@ namespace AuthorityManagement.Core.Services
         }
 
         /// <summary>
-        /// The verify permission.
+        /// 权限验证.
         /// </summary>
         /// <param name="functionId">
-        /// The function id.
+        /// 功能ID.
         /// </param>
         /// <param name="roleId">
-        /// The role id.
+        /// 角色ID.
         /// </param>
         /// <param name="toVerification">
-        /// The to verification.
+        /// The 需要验证的权限.
         /// </param>
         /// <returns>
         /// The <see cref="bool"/>.
@@ -109,16 +109,16 @@ namespace AuthorityManagement.Core.Services
         }
 
         /// <summary>
-        /// The add authority.
+        /// 增加权限.
         /// </summary>
         /// <param name="functionId">
-        /// The function id.
+        /// 功能ID.
         /// </param>
         /// <param name="roleId">
-        /// The role id.
+        /// 角色ID.
         /// </param>
         /// <param name="toAddPermission">
-        /// The to add permission.
+        /// 需要添加的权限.
         /// </param>
         public void AddAuthority(Guid functionId, Guid roleId, PermissionValue toAddPermission)
         {
@@ -129,6 +129,7 @@ namespace AuthorityManagement.Core.Services
             var isexist = this.functionInRoleRepository.Exists(spec);
             if (!isexist)
             {
+                // 如果未进行过授权，这进行第一次授权
                 var role = this.roleRepository.GetByKey(roleId);
                 var function = this.functionRepository.GetByKey(functionId);
                 this.functionInRoleRepository.Add(new FunctionInRole()
@@ -141,6 +142,7 @@ namespace AuthorityManagement.Core.Services
             }
             else
             {
+                // 如果已经进行过授权，则在原有权限上增加新权限
                 var functionInRole = this.functionInRoleRepository.Find(spec);
 
                 // 或运算实现授权
@@ -153,18 +155,19 @@ namespace AuthorityManagement.Core.Services
         }
 
         /// <summary>
-        /// The delete authority.
+        /// 删除权限.
         /// </summary>
         /// <param name="functionId">
-        /// The function id.
+        /// 功能ID.
         /// </param>
         /// <param name="roleId">
-        /// The role id.
+        /// 角色ID.
         /// </param>
         /// <param name="toRemovePermission">
-        /// The to remove permission.
+        /// 需要移除的权限.
         /// </param>
         /// <exception cref="Exception">
+        /// 未授权
         /// </exception>
         public void DeleteAuthority(Guid functionId,Guid roleId, PermissionValue toRemovePermission)
         {
@@ -189,16 +192,16 @@ namespace AuthorityManagement.Core.Services
         }
 
         /// <summary>
-        /// The guard authority agum.
+        /// 检验角色、功能是否存在和功能点是否能够对某种权限进行操作.
         /// </summary>
         /// <param name="functionId">
-        /// The function id.
+        /// 功能ID.
         /// </param>
         /// <param name="roleId">
-        /// The role id.
+        /// 角色ID.
         /// </param>
         /// <param name="permissionValue">
-        /// The permission value.
+        /// 待验证权限.
         /// </param>
         /// <exception cref="Exception">
         /// </exception>
