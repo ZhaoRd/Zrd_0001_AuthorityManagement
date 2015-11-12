@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Design;
     using System.Linq;
 
     using AuthorityManagement.Core.Domains;
@@ -128,11 +129,8 @@
         /// </exception>
         public IEnumerable<UserListOutputDto> GetAllUser(int pageIndex, int pageSize, out int total)
         {
-            if (pageIndex < 0)
-            {
-                throw new Exception("页面不能小于0");
-            }
-
+            Guard.ArgumentInRange<int>(pageIndex, 0, int.MaxValue, "pageIndex");
+            
             var query = this.userRepository.FindAll();
 
             total = query.Count();

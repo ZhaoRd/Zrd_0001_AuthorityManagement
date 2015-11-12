@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MyAuthorizationFilter.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The my authorization filter.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace AuthorityManagement.Web.Filters
 {
-    using System.Net;
+    using System;
     using System.Text;
     using System.Web.Mvc;
     using System.Web.Security;
 
-    using AuthorityManagement.Presentation;
-    using AuthorityManagement.Presentation.Attributes;
-    using AuthorityManagement.Presentations;
+    using Presentation.Attributes;
+    using Presentations;
+    using Presentations.Attributes;
 
     using Skymate;
     using Skymate.Engines;
@@ -49,6 +53,7 @@ namespace AuthorityManagement.Web.Filters
                 return;
             }
 
+            // 需要登录访问
             var isNeedLogined = actionDescriptor.IsDefined(typeof(NeedLoginedAttribute), false)
                                 || controllerDescriptor.IsDefined(typeof(NeedLoginedAttribute), false);
 
