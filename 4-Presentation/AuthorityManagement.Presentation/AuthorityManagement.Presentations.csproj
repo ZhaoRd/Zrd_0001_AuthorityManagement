@@ -66,6 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\FunctionAttribute.cs" />
+    <Compile Include="Attributes\PermissionSettingAttribute.cs" />
+    <Compile Include="Attributes\SystemModelAttribute.cs" />
     <Compile Include="Dtos\FunctionDto.cs" />
     <Compile Include="Dtos\IInputDto.cs" />
     <Compile Include="Dtos\IOutputDto.cs" />

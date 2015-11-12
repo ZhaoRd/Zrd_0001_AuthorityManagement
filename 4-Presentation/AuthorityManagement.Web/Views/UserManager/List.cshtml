@@ -135,7 +135,6 @@
 
 <toaster-container toaster-options="{'position-class': 'toast-bottom-right', 'close-button':true}"></toaster-container>      
 
-
 <script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
             <h3 class="modal-title">编辑用户</h3>
@@ -187,7 +186,6 @@
                 vm.filter = UserManagerService.filter;
 
                 vm.submitForm =function() {
-                    console.log('执行检索');
                     UserManagerService.getUserList();
                 };
 
@@ -217,8 +215,7 @@
                 pageSize: 10,
                 total:0
             };
-
-
+            // 获取用户列表
             self.getUserList = function () {
                 $http.post('UserManager/List', {
                         pageIndex:self.paging.currentPage,
@@ -234,15 +231,17 @@
 
                        self.paging.total = data.AppendData.Total;
                        
-
                     })
                    .error(function (data, status, headers, config) {
                    });
             };
+
+            // 创建用户
             self.createUser = function () {
                 return $http.get('UserManager/Create');
             };
 
+            // 获取用户
             self.getUser = function(userid) {
 
                 var uow = $q.defer();
@@ -259,6 +258,7 @@
 
             };
 
+            // 删除用户
             self.deleteUser = function(userid) {
 
                 var uow = $q.defer();
@@ -277,12 +277,12 @@
 
 
             // 采用promise模式是因为在业务里不处理任何与界面，也就是controller里有关的内容
+            // 保存用户
             self.save = function (user) {
 
                 var d = $q.defer();// 创建工作单元
 
                 $http.post('UserManager/SaveUser', { userInput: user }).success(function (data, status, headers, config) {
-                    console.log('save user ---->', data);
                     d.resolve(data);
                 }).error(function (data, status, headers, config) {
                     d.reject(data);
@@ -311,7 +311,7 @@
         function DataTableController($scope, $compile, $modal, $resource, $http, DTOptionsBuilder, DTColumnDefBuilder, DTColumnBuilder, UserManagerService, SweetAlert, toaster) {
             var vm = this;
 
-            vm.persons = UserManagerService.userInfo;//.list;
+            vm.persons = UserManagerService.userInfo;
 
             activate();
 
@@ -366,12 +366,12 @@
             vm.edit = edit;
             vm.delete = del;
 
+            // 编辑用户
             function edit(id) {
                 console.log('编辑', id);
 
                 UserManagerService.getUser(id).then(function (opresult) {
 
-                    console.log('save user opresult ---->', opresult);
                     if (opresult == null) {
                         toaster.pop('error', '通知', '返回结果为空');
                         return;
@@ -389,6 +389,7 @@
 
             };
 
+            // 删除用户
             function del(id) {
                 console.log('删除', id);
 
@@ -420,7 +421,7 @@
 
             }
 
-
+            // 对话框操作
             function opDialog(dialogData) {
 
                 var modalInstance = $modal.open({
@@ -438,11 +439,8 @@
 
                 modalInstance.result.then(function (user) {
 
-                    console.log('save user ---->', user);
-
                     UserManagerService.save(user).then(function (opresult) {
 
-                        console.log('save user opresult ---->', opresult);
                         if (opresult == null) {
                             toaster.pop('error', '通知', '返回结果为空');
                             return;
@@ -480,8 +478,6 @@
 
                     function activate() {
 
-                       // vm.numPages = 1;
-
                         vm.paging = UserManagerService.paging;
 
                         vm.paging.pageSize = 10;
@@ -492,7 +488,7 @@
                         };
 
                         vm.setNumPages=function() {
-                            console.log('setnumpages');
+                            
                         }
 
                         vm.pageChanged = function () {
@@ -564,8 +560,6 @@
 
                     modalInstance.result.then(function (user) {
 
-                        console.log('save user ---->', user);
-
                         UserManagerService.save(user).then(function (opresult) {
 
                             console.log('save user opresult ---->', opresult);
@@ -590,13 +584,13 @@
                 }
 
             }]);
+
         // 编辑用户弹出框的controller
         app.register.controller('ModalInstanceCtrl', function ($scope, $modalInstance, userInfo) {
 
             $scope.user = userInfo;
 
             $scope.submitted = false;
-
 
             $scope.submitForm = function () {
                 $scope.submitted = true;

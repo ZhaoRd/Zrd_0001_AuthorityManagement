@@ -6,6 +6,7 @@
     using System.Web.Mvc;
 
     using AuthorityManagement.Presentation.Attributes;
+    using AuthorityManagement.Presentations.Attributes;
     using AuthorityManagement.Presentations.UserServices;
     using AuthorityManagement.Presentations.UserServices.Dtos;
     using AuthorityManagement.Security;
@@ -72,15 +73,12 @@
 
             var userList = this.userService.GetAllUser(pageIndex, pageSize, out total);
 
-            return this.Json(
-                OperationResult.Success(
-                    string.Empty,
-                    string.Empty,
-                    new
-                        {
-                            Total = total,
-                            PageSize = pageSize,
-                            Data = userList }));
+            return
+                this.Json(
+                    OperationResult.Success(
+                        string.Empty,
+                        string.Empty,
+                        new { Total = total, PageSize = pageSize, Data = userList }));
         }
 
         /// <summary>
